@@ -26,9 +26,9 @@ node {
    
         stage('Deploye Code') {
             if (isUnix()) {
-                rc = sh returnStatus: true, script: "sfd force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ./key/server.key --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+                rc = sh returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ./key/server.key --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             }else{
-                 rc = bat returnStatus: true, script: "sfd force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ./key/server.key --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
+                 rc = bat returnStatus: true, script: "sfdx force:auth:jwt:grant --clientid ${CONNECTED_APP_CONSUMER_KEY} --username ${HUB_ORG} --jwtkeyfile ./key/server.key --setdefaultdevhubusername --instanceurl ${SFDC_HOST}"
             }
             if (rc != 0) { error 'hub org authorization failed' }
 
@@ -36,9 +36,9 @@ node {
 			
 			// need to pull out assigned username
 			if (isUnix()) {
-				rmsg = sh returnStdout: true, script: "sfd force:mdapi:deploy -d manifest/. -u ${HUB_ORG}"
+				rmsg = sh returnStdout: true, script: "sfdx force:mdapi:deploy -d manifest/. -u ${HUB_ORG}"
 			}else{
-			   rmsg = bat returnStdout: true, script: "sfd force:mdapi:deploy -d manifest/. -u ${HUB_ORG}"
+			   rmsg = bat returnStdout: true, script: "sfdx force:mdapi:deploy -d manifest/. -u ${HUB_ORG}"
 			}
 			  
             printf rmsg
